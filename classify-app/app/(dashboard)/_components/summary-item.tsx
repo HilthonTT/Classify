@@ -2,6 +2,7 @@
 
 import { LucideIcon } from "lucide-react";
 import { VariantProps, cva } from "class-variance-authority";
+import { Poppins } from "next/font/google";
 
 import { cn } from "@/lib/utils";
 
@@ -28,6 +29,11 @@ interface SummaryItemProps extends VariantProps<typeof summaryVariants> {
   count: string;
 }
 
+const font = Poppins({
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
 export const SummaryItem = ({
   icon: Icon,
   label,
@@ -45,9 +51,13 @@ export const SummaryItem = ({
           )}>
           <Icon className={cn(summaryVariants({ color }))} />
         </div>
-        <div className="flex flex-col items-center justify-center mt-5">
-          <span className="text-3xl font-extrabold">{count}</span>
-          <span className="text-base font-medium">{label}</span>
+        <div
+          className={cn(
+            "flex flex-col items-center justify-center mt-5",
+            font.className
+          )}>
+          <span className="text-3xl font-extrabold truncate">{count}</span>
+          <span className="text-base font-medium truncate">{label}</span>
         </div>
       </div>
     </div>

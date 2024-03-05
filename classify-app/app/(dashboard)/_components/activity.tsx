@@ -34,7 +34,7 @@ export const Activity = () => {
       </div>
       <div className="text-center mt-4">
         <Link
-          href="/activities"
+          href="/reports"
           className="text-sm text-blue-600 hover:text-blue-500 transition">
           View all activity
         </Link>

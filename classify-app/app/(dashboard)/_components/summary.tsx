@@ -32,7 +32,7 @@ export const Summary = () => {
         />
         <SummaryItem
           icon={Landmark}
-          count="1 $"
+          count="1 &euro;"
           label="Total Value"
           color="orange"
           backgroundColor="orange"

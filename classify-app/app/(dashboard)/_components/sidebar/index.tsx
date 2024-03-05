@@ -49,7 +49,7 @@ export const Sidebar = () => {
         <Item icon={PackageOpen} label="Items" href="/items" />
         <Item icon={Search} label="Search" href="/advanced-search" />
         <Item icon={Tags} label="Tags" href="/tags" />
-        <Item icon={BarChartBig} label="Reports" href="/items" />
+        <Item icon={BarChartBig} label="Reports" href="/reports" />
       </div>
       <div className="mt-auto pb-5 space-y-3 px-3">
         <OrganizationButton />
