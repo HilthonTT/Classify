@@ -4,11 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   BarChartBig,
-  Building,
   LayoutDashboard,
   PackageOpen,
   Search,
-  Settings,
   Tags,
 } from "lucide-react";
 import { Pacifico } from "next/font/google";
@@ -16,6 +14,8 @@ import { Pacifico } from "next/font/google";
 import { cn } from "@/lib/utils";
 
 import { Item } from "./item";
+import { SettingsButton } from "./settings-button";
+import { OrganizationButton } from "./organization-button";
 
 const font = Pacifico({
   subsets: ["latin"],
@@ -52,8 +52,8 @@ export const Sidebar = () => {
         <Item icon={BarChartBig} label="Reports" href="/items" />
       </div>
       <div className="mt-auto pb-5 space-y-3 px-3">
-        <Item icon={Building} label="Organizations" href="/organizations" />
-        <Item icon={Settings} label="Settings" href="/settings" />
+        <OrganizationButton />
+        <SettingsButton />
       </div>
     </aside>
   );
