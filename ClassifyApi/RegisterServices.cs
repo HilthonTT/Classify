@@ -1,6 +1,8 @@
 ﻿using ClassifyApi.Authentication;
 using ClassifyApi.Authentication.Interfaces;
+using ClassifyApi.Library.Contexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 
@@ -8,14 +10,8 @@ namespace ClassifyApi;
 
 public static class RegisterServices
 {
-    public static void ConfigureServices(this WebApplicationBuilder builder)
+    private static void ConfigureAuthentication(this WebApplicationBuilder builder)
     {
-        builder.Services.AddControllers();
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
-
-        builder.Services.AddSingleton<IAuthService, AuthService>();
 
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(x =>
@@ -43,5 +39,22 @@ public static class RegisterServices
                     }
                 };
             });
+    }
+
+    public static void ConfigureServices(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddControllers();
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+
+        builder.ConfigureAuthentication();
+
+        builder.Services.AddSingleton<IAuthService, AuthService>();
+
+        builder.Services.AddDbContext<AppDbContext>(options =>
+        {
+            options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
+        });
     }
 }
