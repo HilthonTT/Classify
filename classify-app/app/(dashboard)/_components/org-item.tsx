@@ -30,7 +30,7 @@ export const OrgItem = ({ id, name, imageUrl }: OrgItemProps) => {
       role="button"
       onClick={onClick}
       className={cn(
-        "flex items-center border border-gray-200 rounded-md p-1 gap-1 opacity-75 hover:opacity-100 transition",
+        "flex items-center border border-gray-200 rounded-md p-1 gap-2 opacity-75 hover:opacity-100 transition",
         isActive && "opacity-100"
       )}>
       <UserAvatar username={name} imageUrl={imageUrl} size="md" />

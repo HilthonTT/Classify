@@ -67,12 +67,9 @@ export const OrganizationButton = () => {
         <DialogFooter>
           <DialogClose asChild>
             <Button variant="ghost" size="icon">
-              <X />
+              <Check />
             </Button>
           </DialogClose>
-          <Button variant="ghost" size="icon">
-            <Check />
-          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
