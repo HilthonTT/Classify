@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { useCreateItemModal } from "@/store/use-create-item-modal";
 
 import { SearchInput } from "./search-input";
+import { SelectSort } from "./select-sort";
 
 export const Header = () => {
   const { onOpen } = useCreateItemModal();
@@ -23,7 +24,12 @@ export const Header = () => {
         </div>
       </div>
       <Separator className="my-4" />
-      <SearchInput />
+      <div className="flex items-center justify-between w-full">
+        <SearchInput />
+        <div className="gap-2">
+          <SelectSort />
+        </div>
+      </div>
     </>
   );
 };

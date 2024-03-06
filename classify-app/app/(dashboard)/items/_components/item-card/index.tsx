@@ -26,6 +26,7 @@ export const ItemCard = ({ item }: ItemCardProps) => {
             />
           )}
         </div>
+
         <div className="p-4 relative">
           <div className="flex items-center justify-between h-8">
             <span className="text-neutral-600 truncate">{item.name}</span>

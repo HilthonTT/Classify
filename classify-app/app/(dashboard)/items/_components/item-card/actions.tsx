@@ -2,7 +2,6 @@
 
 import { Clock, MoreVertical, Trash2 } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,17 +13,15 @@ export const Actions = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="hidden group-hover:flex items-center justify-center">
-          <MoreVertical className="h-5 w-5" />
-        </Button>
+        <button className="opacity-0 group-hover:opacity-100 transition-opacity px-3 py-2  outline-none">
+          <MoreVertical className="opacity-75 hover:opacity-100 transition h-5 w-5" />
+        </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         onClick={(e) => e.stopPropagation()}
         side="right"
-        sideOffset={24}>
+        sideOffset={24}
+        className="w-60">
         <DropdownMenuItem className="p-3 cursor-pointer">
           <Clock className="h-4 w-4 mr-2" />
           History

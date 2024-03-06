@@ -31,7 +31,7 @@ public class ItemsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetItemsAsync()
+    public async Task<IActionResult> GetItemsAsync([FromQuery] string? search)
     {
         try
         {
@@ -41,8 +41,15 @@ public class ItemsController : ControllerBase
                 return StatusCode(401, "Unauthorized");
             }
 
-            GetItemsByOrgIdQuery query = new(user?.OrgId);
+            GetItemsByOrgIdQuery query = new(user.OrgId);
             List<Item> items = await _mediator.Send(query);
+
+            if (string.IsNullOrWhiteSpace(search) is false)
+            {
+               items = items
+                    .Where(i => i.Name.Contains(search, StringComparison.InvariantCultureIgnoreCase))
+                    .ToList();
+            }
 
             return Ok(items);
         }
