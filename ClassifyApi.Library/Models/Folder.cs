@@ -1,9 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace ClassifyApi.Library.Models;
+
+[Index(nameof(OrgId))]
 public class Folder
 {
     public int Id { get; set; }
+
+    [Required]
+    [MinLength(1)]
+    [MaxLength(30)]
+    public required string OrgId { get; set; }
 
     [Required]
     [MinLength(1)]

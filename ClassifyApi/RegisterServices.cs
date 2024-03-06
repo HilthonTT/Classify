@@ -1,6 +1,8 @@
 ﻿using ClassifyApi.Authentication;
 using ClassifyApi.Authentication.Interfaces;
 using ClassifyApi.Library.Contexts;
+using ClassifyApi.Library.DataAccess;
+using ClassifyApi.Library.DataAccess.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -50,7 +52,10 @@ public static class RegisterServices
 
         builder.ConfigureAuthentication();
 
+        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+
         builder.Services.AddSingleton<IAuthService, AuthService>();
+        builder.Services.AddTransient<IItemData, ItemData>();
 
         builder.Services.AddDbContext<AppDbContext>(options =>
         {
