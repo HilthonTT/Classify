@@ -9,7 +9,7 @@ public class CreateItemModel
     [MaxLength(60, ErrorMessage = "Name is too long")]
     public required string Name { get; set; }
 
-    [Url]
+
     public string? ImageUrl { get; set; }
     public int Quantity { get; set; }
     public int MinimumLevel { get; set; }

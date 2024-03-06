@@ -10,7 +10,7 @@ public class Folder
 
     [Required]
     [MinLength(1)]
-    [MaxLength(30)]
+    [MaxLength(50)]
     public required string OrgId { get; set; }
 
     [Required]
@@ -25,4 +25,7 @@ public class Folder
 
     [Required]
     public bool Deleted { get; set; } = false;
+
+    [Required]
+    public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 }

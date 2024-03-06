@@ -41,7 +41,7 @@ public class ItemsController : ControllerBase
                 return StatusCode(401, "Unauthorized");
             }
 
-            GetItemsByOrgIdQuery query = new("");
+            GetItemsByOrgIdQuery query = new(user?.OrgId);
             List<Item> items = await _mediator.Send(query);
 
             return Ok(items);

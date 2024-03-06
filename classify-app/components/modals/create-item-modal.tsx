@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { ImageUpload } from "@/components/image-upload";
+import { createItem } from "@/actions/item";
 
 export const CreateItemModal = () => {
   const { isOpen, onClose } = useCreateItemModal();
@@ -31,15 +32,41 @@ export const CreateItemModal = () => {
     setImageUrl(url);
   };
 
-  const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+  const close = () => {
+    setName("");
+    setImageUrl("");
+    setQuantity(0);
+    setMinLevel(0);
+    setPrice(0);
+
+    onClose();
+  };
+
+  const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
-    console.log(name, imageUrl, minLevel, quantity, price);
-
-    toast({
-      title: "Item Created!",
-      description: "Item has been successfully created!",
-    });
+    await createItem({
+      name,
+      imageUrl,
+      quantity,
+      minimumLevel: minLevel,
+      price,
+    })
+      .then((item) => {
+        toast({
+          title: `${item.name} Created!`,
+          description: "Item has been successfully created!",
+        });
+      })
+      .catch(() => {
+        toast({
+          title: "Something went wrong!",
+          description: "Something happened on our side. Please try again.",
+        });
+      })
+      .finally(() => {
+        close();
+      });
   };
 
   return (
