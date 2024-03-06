@@ -1,4 +1,6 @@
 using ClassifyApi;
+using Microsoft.AspNetCore.RateLimiting;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,10 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors();
+
+app.UseRateLimiter();
 
 app.MapControllers();
 

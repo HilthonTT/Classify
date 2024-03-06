@@ -5,11 +5,15 @@ using ClassifyApi.Library.Models;
 using ClassifyApi.Models;
 using ClassifyApi.Queries.Items;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClassifyApi.Controllers;
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
+[EnableCors]
 public class ItemsController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -188,11 +192,11 @@ public class ItemsController : ControllerBase
     {
         try
         {
-            //User? user = _authService.GetUserFromAuth(HttpContext);
-            //if (string.IsNullOrWhiteSpace(user?.OrgId))
-            //{
-            //    return StatusCode(401, "Unauthorized");
-            //}
+            User? user = _authService.GetUserFromAuth(HttpContext);
+            if (string.IsNullOrWhiteSpace(user?.OrgId))
+            {
+                return StatusCode(401, "Unauthorized");
+            }
 
             DeleteItemCommand command = new(itemId, "");
 

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using System.Threading.RateLimiting;
 
 namespace ClassifyApi;
 
@@ -53,6 +54,34 @@ public static class RegisterServices
         builder.ConfigureAuthentication();
 
         builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+
+        builder.Services.AddRateLimiter(options =>
+        {
+            options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
+            {
+                return RateLimitPartition.GetTokenBucketLimiter<string>("TokenBased",
+                    _ => new TokenBucketRateLimiterOptions()
+                    {
+                        TokenLimit = 50,
+                        QueueProcessingOrder = QueueProcessingOrder.NewestFirst,
+                        QueueLimit = 0,
+                        ReplenishmentPeriod = TimeSpan.FromSeconds(10),
+                        TokensPerPeriod = 10,
+                        AutoReplenishment = true,
+                    });
+            });
+            options.RejectionStatusCode = 429;
+        });
+
+        builder.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(policy =>
+            {
+                string?[] origins = builder.Configuration.GetSection("Origins").GetChildren().Select(x => x.Value).ToArray();
+
+                policy.WithOrigins(origins!);
+            });
+        });
 
         builder.Services.AddSingleton<IAuthService, AuthService>();
         builder.Services.AddTransient<IItemData, ItemData>();
