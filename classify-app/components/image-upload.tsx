@@ -6,34 +6,39 @@ import { X } from "lucide-react";
 import { UploadDropzone } from "@/lib/uploadthing";
 
 interface ImageUploadProps {
+  id?: string;
   onChange: (url: string) => void;
   value: string;
 }
 
-export const ImageUpload = ({ value, onChange }: ImageUploadProps) => {
+export const ImageUpload = ({ id, value, onChange }: ImageUploadProps) => {
   if (value) {
     return (
       <div className="relative w-32 h-32">
         <Image fill src={value} alt="Upload" className="rounded-full" />
         <button
-          onClick={() => onChange("")}
+          onClick={() => onChange?.("")}
           className="bg-rose-500 text-white p-1 rounded-full absolute top-0 right-0 shadow-sm"
           type="button">
           <X className="h-4 w-4" />
         </button>
+        <input id={id} value={value} hidden readOnly />
       </div>
     );
   }
 
   return (
-    <UploadDropzone
-      endpoint="imageUploader"
-      onClientUploadComplete={(res) => {
-        onChange(res?.[0].url);
-      }}
-      onUploadError={(error) => {
-        console.log(error);
-      }}
-    />
+    <>
+      <UploadDropzone
+        endpoint="imageUploader"
+        onClientUploadComplete={(res) => {
+          onChange?.(res?.[0].url);
+        }}
+        onUploadError={(error) => {
+          console.log(error);
+        }}
+      />
+      <input id={id} value={value} hidden readOnly />
+    </>
   );
 };

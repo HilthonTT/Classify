@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { File, FolderSymlink, Plus } from "lucide-react";
+import { File } from "lucide-react";
 
 import { Item } from "@/types/item";
 import { TabSeparator } from "@/components/tab-separator";
-import { Hint } from "@/components/hint";
 
 import { Actions } from "./actions";
+import { ItemActions } from "./item-actions";
 
 interface ItemCardProps {
   item: Item;
@@ -20,32 +20,22 @@ export const ItemCard = ({ item }: ItemCardProps) => {
       <div className="group rounded-xl bg-gray-100 relative shadow-sm hover:shadow-lg hover:opacity-95 transition">
         <div className="relative w-full h-36">
           {item.imageUrl && (
-            <Image
-              src={item.imageUrl}
-              alt="Image"
-              fill
-              className="object-cover rounded-xl rounded-b-none"
-            />
+            <>
+              <Image
+                src={item.imageUrl}
+                alt="Image"
+                fill
+                className="object-cover rounded-xl rounded-b-none"
+              />
+              <ItemActions />
+            </>
           )}
           {!item.imageUrl && (
             <div className="w-full h-full bg-gray-200 flex items-center justify-center">
               <File className="h-12 w-12 fill-zinc-300" />
+              <ItemActions />
             </div>
           )}
-          <div className="absolute right-2 transform translate-y-8 opacity-0 group-hover:opacity-100 transition-opacity">
-            <div className="flex flex-col space-y-2">
-              <Hint label="Update Quantity">
-                <button className="rounded-lg bg-gray-600 hover:bg-gray-500 transition p-1">
-                  <Plus className="stroke-white" />
-                </button>
-              </Hint>
-              <Hint label="Move Folder">
-                <button className="rounded-lg bg-gray-600 hover:bg-gray-500 transition p-1">
-                  <FolderSymlink className="stroke-white" />
-                </button>
-              </Hint>
-            </div>
-          </div>
         </div>
 
         <div className="p-4 relative overflow-hidden">
