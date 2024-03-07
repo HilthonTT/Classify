@@ -17,4 +17,5 @@ public class UpdateItemModel
     public int MinimumLevel { get; set; }
     public decimal Price { get; set; }
     public string? Reason { get; set; }
+    public bool? Deleted { get; set; }
 }

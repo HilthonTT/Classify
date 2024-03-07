@@ -24,7 +24,7 @@ const font = Pacifico({
 
 export const Sidebar = () => {
   return (
-    <aside className="fixed left-0 h-full bg-blue-600 lg:w-[184px] w-[82px] text-white lg:flex flex-col pt-5">
+    <aside className="fixed z-50 left-0 h-full bg-blue-600 lg:w-[184px] w-[82px] text-white lg:flex flex-col pt-5">
       <Link href="/">
         <div className="flex flex-col items-center justify-center gap-x-2 w-auto">
           <Image

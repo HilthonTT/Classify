@@ -27,6 +27,7 @@ public class UpdateItemHandler : IRequestHandler<UpdateItemCommand, Item?>
         item.Quantity = request.Quantity;
         item.MinimumLevel = request.MinimumLevel;
         item.Price = request.Price;
+        item.Deleted = request.Deleted ?? item.Deleted;
 
         Item updatedItem = await _itemData.UpdateAsync(item);
 

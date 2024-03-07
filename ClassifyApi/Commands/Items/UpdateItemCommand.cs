@@ -13,6 +13,7 @@ public class UpdateItemCommand : IRequest<Item>
     public int Quantity { get; }
     public int MinimumLevel { get; }
     public decimal Price { get; }
+    public bool? Deleted { get; set; }
 
     public UpdateItemCommand(
         int id,
@@ -22,7 +23,8 @@ public class UpdateItemCommand : IRequest<Item>
         string? imageUrl,
         int quantity,
         int minimumLevel,
-        decimal price)
+        decimal price,
+        bool? deleted)
     {
         Id = id;
         FolderId = folderId;
@@ -32,5 +34,6 @@ public class UpdateItemCommand : IRequest<Item>
         MinimumLevel = minimumLevel;
         Price = price;
         OrgId = orgId;
+        Deleted = deleted;
     }
 }

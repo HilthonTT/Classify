@@ -2,13 +2,23 @@ import qs from "query-string";
 
 import { getInstance } from "@/lib/axios";
 import { Item } from "@/types/item";
+import { SortType } from "@/types/sort";
 
-export const getItems = async (search?: string): Promise<Item[]> => {
+export const getItems = async (
+  search?: string,
+  sort?: SortType
+): Promise<Item[]> => {
   const axios = await getInstance();
 
-  const params = search ? { search } : {};
+  const params = {
+    search,
+    sort,
+  };
 
-  const queryString = qs.stringify(params);
+  const queryString = qs.stringify(params, {
+    skipEmptyString: true,
+    skipNull: true,
+  });
 
   const response = await axios.get(`/api/items?${queryString}`);
   const data = response.data as Item[];

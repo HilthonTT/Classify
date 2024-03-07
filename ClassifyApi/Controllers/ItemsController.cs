@@ -1,6 +1,7 @@
 ﻿using ClassifyApi.Authentication;
 using ClassifyApi.Authentication.Interfaces;
 using ClassifyApi.Commands.Items;
+using ClassifyApi.Enums;
 using ClassifyApi.Library.Models;
 using ClassifyApi.Models;
 using ClassifyApi.Queries.Items;
@@ -31,7 +32,9 @@ public class ItemsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetItemsAsync([FromQuery] string? search)
+    public async Task<IActionResult> GetItemsAsync(
+        [FromQuery] string? search, 
+        [FromQuery] ItemSortType? sort)
     {
         try
         {
@@ -41,15 +44,8 @@ public class ItemsController : ControllerBase
                 return StatusCode(401, "Unauthorized");
             }
 
-            GetItemsByOrgIdQuery query = new(user.OrgId);
+            GetItemsByOrgIdQuery query = new(user.OrgId, search, sort);
             List<Item> items = await _mediator.Send(query);
-
-            if (string.IsNullOrWhiteSpace(search) is false)
-            {
-               items = items
-                    .Where(i => i.Name.Contains(search, StringComparison.InvariantCultureIgnoreCase))
-                    .ToList();
-            }
 
             return Ok(items);
         }
@@ -157,7 +153,8 @@ public class ItemsController : ControllerBase
                 value.ImageUrl,
                 value.Quantity,
                 value.MinimumLevel,
-                value.Price);
+                value.Price,
+                value.Deleted);
 
             Item? item = await _mediator.Send(command);
 
