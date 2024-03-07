@@ -27,13 +27,13 @@ export const ItemCard = ({ item }: ItemCardProps) => {
                 fill
                 className="object-cover rounded-xl rounded-b-none"
               />
-              <ItemActions />
+              <ItemActions item={item} />
             </>
           )}
           {!item.imageUrl && (
             <div className="w-full h-full bg-gray-200 flex items-center justify-center">
               <File className="h-12 w-12 fill-zinc-300" />
-              <ItemActions />
+              <ItemActions item={item} />
             </div>
           )}
         </div>
@@ -41,7 +41,7 @@ export const ItemCard = ({ item }: ItemCardProps) => {
         <div className="p-4 relative overflow-hidden">
           <div className="flex items-center justify-between h-8">
             <span className="text-neutral-600 truncate">{item.name}</span>
-            <Actions />
+            <Actions id={item.id} />
           </div>
           <div className="mt-8 mb-8 flex items-center">
             <span className="truncate text-sm text-muted-foreground">

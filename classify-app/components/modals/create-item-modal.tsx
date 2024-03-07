@@ -63,7 +63,7 @@ export const CreateItemModal = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-full">
+      <DialogContent className="w-full overflow-hidden">
         <DialogHeader>
           <DialogTitle>Add Item</DialogTitle>
         </DialogHeader>
