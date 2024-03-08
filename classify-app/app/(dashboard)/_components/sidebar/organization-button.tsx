@@ -1,6 +1,6 @@
 "use client";
 
-import { Building, Check, X } from "lucide-react";
+import { Building, Check } from "lucide-react";
 import { useOrganizationList } from "@clerk/nextjs";
 
 import { Hint } from "@/components/hint";
@@ -14,6 +14,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { OrgItem } from "./org-item";
 
@@ -54,16 +55,20 @@ export const OrganizationButton = () => {
         <DialogHeader>
           <DialogTitle>Choose an organization</DialogTitle>
         </DialogHeader>
-        <ul className="space-y-4 mt-4">
-          {userMemberships.data.map((mem) => (
-            <OrgItem
-              key={mem.organization.id}
-              id={mem.organization.id}
-              name={mem.organization.name}
-              imageUrl={mem.organization.imageUrl}
-            />
-          ))}
-        </ul>
+
+        <ScrollArea className="w-full h-[260px]">
+          <div className="space-y-4">
+            {userMemberships.data.map((mem) => (
+              <OrgItem
+                key={mem.organization.id}
+                id={mem.organization.id}
+                name={mem.organization.name}
+                imageUrl={mem.organization.imageUrl}
+              />
+            ))}
+          </div>
+        </ScrollArea>
+
         <DialogFooter>
           <DialogClose asChild>
             <Button variant="ghost" size="icon">

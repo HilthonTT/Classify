@@ -1,3 +1,4 @@
+import { getItems } from "@/lib/item-service";
 import { SortType } from "@/types/sort";
 
 import { Header } from "./_components/header";
@@ -11,12 +12,14 @@ interface ItemsPageProps {
   };
 }
 
-const ItemsPage = ({ searchParams }: ItemsPageProps) => {
+const ItemsPage = async ({ searchParams }: ItemsPageProps) => {
+  const items = await getItems(searchParams.search, searchParams.sort);
+
   return (
     <div className="p-7 h-full w-full">
       <Header />
-      <Summary />
-      <ItemList searchParams={searchParams} />
+      <Summary items={items} />
+      <ItemList items={items} />
     </div>
   );
 };

@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { useAction } from "@/hooks/use-action";
 import { updateItem } from "@/actions/update-item";
 import { toast } from "@/components/ui/use-toast";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ItemCardProps {
   item: Item;
@@ -85,4 +86,8 @@ export const ItemCard = ({ item }: ItemCardProps) => {
       </div>
     </div>
   );
+};
+
+ItemCard.Skeleton = function ItemCardSkeleton() {
+  return <Skeleton className="w-full h-24 rounded-xl" />;
 };

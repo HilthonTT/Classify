@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { Item } from "./item";
 import { SettingsButton } from "./settings-button";
 import { OrganizationButton } from "./organization-button";
+import { CreateOrgButton } from "./create-org-button";
 
 const font = Pacifico({
   subsets: ["latin"],
@@ -52,6 +53,7 @@ export const Sidebar = () => {
         <Item icon={BarChartBig} label="Reports" href="/reports" />
       </div>
       <div className="mt-auto pb-5 space-y-3 px-3">
+        <CreateOrgButton />
         <OrganizationButton />
         <SettingsButton />
       </div>

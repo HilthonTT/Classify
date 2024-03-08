@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { Clock, Trash2 } from "lucide-react";
+import { UserButton } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useCreateItemModal } from "@/store/use-create-item-modal";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import { SearchInput } from "./search-input";
 import { SelectSort } from "./select-sort";
@@ -42,6 +44,7 @@ export const Header = () => {
           <Button variant="primary" className="group">
             Add Folder
           </Button>
+          <UserButton />
         </div>
       </div>
       <Separator className="my-4" />
@@ -51,6 +54,31 @@ export const Header = () => {
           <SelectSort />
         </div>
       </div>
+    </>
+  );
+};
+
+Header.Skeleton = function HeaderSkeleton() {
+  return (
+    <>
+      <div className="items-center justify-between flex-col md:flex-row hidden md:flex">
+        <div className="flex items-center justify-between">
+          <Skeleton className="h-8 w-32" />
+
+          <div className="ml-2 space-x-2 flex items-center">
+            <Skeleton className="h-8 w-8" />
+            <Skeleton className="h-8 w-8" />
+          </div>
+        </div>
+
+        <div className="ml-2 space-x-2 flex items-center">
+          <Skeleton className="h-8 w-24" />
+          <Skeleton className="h-8 w-24" />
+          <Skeleton className="h-8 w-8 rounded-full" />
+        </div>
+      </div>
+
+      <Skeleton className="flex md:hidden w-full h-8" />
     </>
   );
 };

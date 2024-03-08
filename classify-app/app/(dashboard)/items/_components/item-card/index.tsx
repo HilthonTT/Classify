@@ -9,6 +9,7 @@ import { TabSeparator } from "@/components/tab-separator";
 
 import { Actions } from "./actions";
 import { ItemActions } from "./item-actions";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ItemCardProps {
   item: Item;
@@ -54,4 +55,8 @@ export const ItemCard = ({ item }: ItemCardProps) => {
       </div>
     </Link>
   );
+};
+
+ItemCard.Skeleton = function ItemCardSkeleton() {
+  return <Skeleton className="rounded-xl h-full w-full" />;
 };
