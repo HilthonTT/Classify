@@ -36,4 +36,5 @@ public class Item
 
     [Required]
     public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+    public DateTime? DateDeleted { get; set; }
 }

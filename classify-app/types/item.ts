@@ -9,4 +9,5 @@ export type Item = {
   price: number;
   deleted: boolean;
   dateCreated: Date;
+  dateDeleted?: Date;
 };

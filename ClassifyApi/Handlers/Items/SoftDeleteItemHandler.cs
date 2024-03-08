@@ -26,6 +26,7 @@ public class SoftDeleteItemHandler : IRequestHandler<SoftDeleteItemCommand, Item
         }
 
         item.Deleted = true;
+        item.DateDeleted = DateTime.UtcNow;
 
         Item updatedItem = await _itemData.UpdateAsync(item);
 
