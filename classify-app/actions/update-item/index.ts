@@ -35,6 +35,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
 
   revalidatePath("/items");
   revalidatePath(`/items/${data.id}`);
+  revalidatePath("/trash");
 
   return { data: item };
 };

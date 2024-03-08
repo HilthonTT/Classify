@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 interface SummaryItemProps {
   label: string;
-  count: string;
+  count: string | number;
 }
 
 const font = Poppins({
@@ -17,8 +17,8 @@ const font = Poppins({
 export const SummaryItem = ({ label, count }: SummaryItemProps) => {
   return (
     <div className={cn("flex items-center gap-2", font.className)}>
-      <span className="text-muted-foreground text-xl">{label}:</span>
-      <span className="text-xl font-extrabold">{count}</span>
+      <span className="text-muted-foreground text-sm lg:text-xl">{label}:</span>
+      <span className="text-sm lg:text-xl font-extrabold">{count}</span>
     </div>
   );
 };

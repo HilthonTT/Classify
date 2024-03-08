@@ -25,3 +25,12 @@ export const getItems = async (
 
   return data;
 };
+
+export const getDeletedItems = async (): Promise<Item[]> => {
+  const axios = await getInstance();
+
+  const response = await axios.get("/api/items/deleted");
+  const data = response.data as Item[];
+
+  return data;
+};

@@ -9,7 +9,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     <main className="h-full">
       <Sidebar />
       <div className="h-full pl-[100px] sm:pl-[184px]">
-        <div className="h-full flex-1">{children}</div>
+        <div className="flex-1">{children}</div>
       </div>
     </main>
   );

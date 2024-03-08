@@ -25,4 +25,5 @@ export const UpdateItem = z.object({
       message: "Minimum level cannot be below 9",
     }),
   reason: z.optional(z.string()),
+  deleted: z.optional(z.boolean()),
 });
