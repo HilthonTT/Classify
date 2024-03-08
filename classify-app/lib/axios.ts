@@ -11,7 +11,7 @@ const agent = new https.Agent({
 export const getInstance = async () => {
   const { getToken } = auth();
 
-  const token = await getToken();
+  const token = await getToken({ template: "api" });
   if (!token) {
     throw new Error("Unauthorized");
   }

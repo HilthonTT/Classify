@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Threading.RateLimiting;
-using Clerk.Net.DependencyInjection;
+using Serilog;
 
 namespace ClassifyApi;
 
@@ -32,12 +32,13 @@ public static class RegisterServices
                     // Additional validation for AZP claim
                     OnTokenValidated = context =>
                     {
-                        var azp = context.Principal?.FindFirstValue("azp");
+                        var azp = context.Principal?.FindFirstValue("aud");
                         // AuthorizedParty is the base URL of your frontend.
-                        if (string.IsNullOrEmpty(azp) || azp.Equals(builder.Configuration["Clerk:AuthorizedParty"]) is false)
+                        if (string.IsNullOrEmpty(azp) || azp.Equals(builder.Configuration["Clerk:Template"]) is false)
                         {
                             context.Fail("AZP Claim is invalid or missing");
                         }
+
 
                         return Task.CompletedTask;
                     }
@@ -84,14 +85,18 @@ public static class RegisterServices
             });
         });
 
-        builder.Services.AddClerkApiClient(config =>
-        {
-            config.SecretKey = builder.Configuration["Clerk:SecretKey"]!;
-        });
+        var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+
+        Log.Logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(configuration).CreateLogger();
+
+        builder.Services.AddSerilog();
+        builder.Services.AddMemoryCache();
 
         builder.Services.AddSingleton<IAuthService, AuthService>();
         builder.Services.AddTransient<IItemData, ItemData>();
         builder.Services.AddTransient<IActivityLogData, ActivityLogData>();
+        builder.Services.AddTransient<IFolderData, FolderData>();
 
         builder.Services.AddDbContext<AppDbContext>(options =>
         {

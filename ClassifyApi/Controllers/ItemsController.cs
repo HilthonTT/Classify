@@ -38,7 +38,7 @@ public class ItemsController : ControllerBase
     {
         try
         {
-            User? user = await _authService.GetUserFromAuthAsync(HttpContext);
+            User? user = _authService.GetUserFromAuth(HttpContext);
             if (string.IsNullOrWhiteSpace(user?.OrgId))
             {
                 return StatusCode(401, "Unauthorized");
@@ -61,7 +61,7 @@ public class ItemsController : ControllerBase
     {
         try
         {
-            User? user = await _authService.GetUserFromAuthAsync(HttpContext);
+            User? user = _authService.GetUserFromAuth(HttpContext);
             if (string.IsNullOrWhiteSpace(user?.OrgId))
             {
                 return StatusCode(401, "Unauthorized");
@@ -85,7 +85,7 @@ public class ItemsController : ControllerBase
     {
         try
         {
-            User? user = await _authService.GetUserFromAuthAsync(HttpContext);
+            User? user = _authService.GetUserFromAuth(HttpContext);
             if (string.IsNullOrWhiteSpace(user?.OrgId))
             {
                 return StatusCode(401, "Unauthorized");
@@ -108,7 +108,7 @@ public class ItemsController : ControllerBase
     {
         try
         {
-            User? user = await _authService.GetUserFromAuthAsync(HttpContext);
+            User? user = _authService.GetUserFromAuth(HttpContext);
             if (string.IsNullOrWhiteSpace(user?.OrgId))
             {
                 return StatusCode(401, "Unauthorized");
@@ -139,7 +139,7 @@ public class ItemsController : ControllerBase
     {
         try
         {
-            User? user = await _authService.GetUserFromAuthAsync(HttpContext);
+            User? user = _authService.GetUserFromAuth(HttpContext);
             if (string.IsNullOrWhiteSpace(user?.OrgId))
             {
                 return StatusCode(401, "Unauthorized");
@@ -172,7 +172,7 @@ public class ItemsController : ControllerBase
     {
         try
         {
-            User? user = await _authService.GetUserFromAuthAsync(HttpContext);
+            User? user = _authService.GetUserFromAuth(HttpContext);
             if (string.IsNullOrWhiteSpace(user?.OrgId))
             {
                 return StatusCode(401, "Unauthorized");
@@ -196,7 +196,7 @@ public class ItemsController : ControllerBase
     {
         try
         {
-            User? user = await _authService.GetUserFromAuthAsync(HttpContext);
+            User? user = _authService.GetUserFromAuth(HttpContext);
             if (string.IsNullOrWhiteSpace(user?.OrgId))
             {
                 return StatusCode(401, "Unauthorized");

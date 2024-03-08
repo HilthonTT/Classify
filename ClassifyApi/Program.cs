@@ -1,29 +1,45 @@
 using ClassifyApi;
-using Microsoft.AspNetCore.RateLimiting;
-using System.Threading.RateLimiting;
+using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
-
-builder.ConfigureServices();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+try
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    var builder = WebApplication.CreateBuilder(args);
+
+    builder.Host.UseSerilog();
+
+    builder.ConfigureServices();
+
+    var app = builder.Build();
+
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+
+    app.UseHttpsRedirection();
+
+    app.UseSerilogRequestLogging();
+
+    app.UseAuthentication();
+    app.UseAuthorization();
+
+    app.UseCors();
+
+    app.UseRateLimiter();
+
+    app.MapControllers();
+
+    app.Run();
+
+    Log.Information("Application starting up");
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.UseCors();
-
-app.UseRateLimiter();
-
-app.MapControllers();
-
-app.Run();
+catch (Exception ex)
+{
+    Log.Fatal(ex, "The application failed to start correctly");
+}
+finally
+{
+    await Log.CloseAndFlushAsync();
+}
