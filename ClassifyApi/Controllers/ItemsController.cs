@@ -38,7 +38,7 @@ public class ItemsController : ControllerBase
     {
         try
         {
-            User? user = _authService.GetUserFromAuth(HttpContext);
+            User? user = await _authService.GetUserFromAuthAsync(HttpContext);
             if (string.IsNullOrWhiteSpace(user?.OrgId))
             {
                 return StatusCode(401, "Unauthorized");
@@ -61,7 +61,7 @@ public class ItemsController : ControllerBase
     {
         try
         {
-            User? user = _authService.GetUserFromAuth(HttpContext);
+            User? user = await _authService.GetUserFromAuthAsync(HttpContext);
             if (string.IsNullOrWhiteSpace(user?.OrgId))
             {
                 return StatusCode(401, "Unauthorized");
@@ -85,7 +85,7 @@ public class ItemsController : ControllerBase
     {
         try
         {
-            User? user = _authService.GetUserFromAuth(HttpContext);
+            User? user = await _authService.GetUserFromAuthAsync(HttpContext);
             if (string.IsNullOrWhiteSpace(user?.OrgId))
             {
                 return StatusCode(401, "Unauthorized");
@@ -108,7 +108,7 @@ public class ItemsController : ControllerBase
     {
         try
         {
-            User? user = _authService.GetUserFromAuth(HttpContext);
+            User? user = await _authService.GetUserFromAuthAsync(HttpContext);
             if (string.IsNullOrWhiteSpace(user?.OrgId))
             {
                 return StatusCode(401, "Unauthorized");
@@ -117,11 +117,11 @@ public class ItemsController : ControllerBase
             CreateItemCommand command = new
             (
                 value.Name,
-                user.OrgId,
                 value.ImageUrl,
                 value.Quantity,
                 value.MinimumLevel,
-                value.Price);
+                value.Price,
+                user);
 
             Item item = await _mediator.Send(command);
 
@@ -139,7 +139,7 @@ public class ItemsController : ControllerBase
     {
         try
         {
-            User? user = _authService.GetUserFromAuth(HttpContext);
+            User? user = await _authService.GetUserFromAuthAsync(HttpContext);
             if (string.IsNullOrWhiteSpace(user?.OrgId))
             {
                 return StatusCode(401, "Unauthorized");
@@ -147,14 +147,14 @@ public class ItemsController : ControllerBase
 
             UpdateItemCommand command = new(
                 value.Id,
-                user.OrgId,
                 value.FolderId,
                 value.Name,
                 value.ImageUrl,
                 value.Quantity,
                 value.MinimumLevel,
                 value.Price,
-                value.Deleted);
+                value.Deleted,
+                user);
 
             Item? item = await _mediator.Send(command);
 
@@ -172,13 +172,13 @@ public class ItemsController : ControllerBase
     {
         try
         {
-            User? user = _authService.GetUserFromAuth(HttpContext);
+            User? user = await _authService.GetUserFromAuthAsync(HttpContext);
             if (string.IsNullOrWhiteSpace(user?.OrgId))
             {
                 return StatusCode(401, "Unauthorized");
             }
 
-            SoftDeleteItemCommand command = new(itemId, user.OrgId);
+            SoftDeleteItemCommand command = new(itemId, user);
 
             Item? item = await _mediator.Send(command);
 
@@ -196,13 +196,13 @@ public class ItemsController : ControllerBase
     {
         try
         {
-            User? user = _authService.GetUserFromAuth(HttpContext);
+            User? user = await _authService.GetUserFromAuthAsync(HttpContext);
             if (string.IsNullOrWhiteSpace(user?.OrgId))
             {
                 return StatusCode(401, "Unauthorized");
             }
 
-            DeleteItemCommand command = new(itemId, "");
+            DeleteItemCommand command = new(itemId, user);
 
             Item? item = await _mediator.Send(command);
 

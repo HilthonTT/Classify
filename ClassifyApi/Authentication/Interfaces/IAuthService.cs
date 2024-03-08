@@ -2,5 +2,5 @@
 
 public interface IAuthService
 {
-    User? GetUserFromAuth(HttpContext context);
+    Task<User?> GetUserFromAuthAsync(HttpContext context);
 }

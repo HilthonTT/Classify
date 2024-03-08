@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Threading.RateLimiting;
+using Clerk.Net.DependencyInjection;
 
 namespace ClassifyApi;
 
@@ -83,8 +84,14 @@ public static class RegisterServices
             });
         });
 
+        builder.Services.AddClerkApiClient(config =>
+        {
+            config.SecretKey = builder.Configuration["Clerk:SecretKey"]!;
+        });
+
         builder.Services.AddSingleton<IAuthService, AuthService>();
         builder.Services.AddTransient<IItemData, ItemData>();
+        builder.Services.AddTransient<IActivityLogData, ActivityLogData>();
 
         builder.Services.AddDbContext<AppDbContext>(options =>
         {

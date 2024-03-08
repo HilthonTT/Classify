@@ -29,6 +29,8 @@ public class Item
     public int MinimumLevel { get; set; }
     public decimal Price { get; set; }
 
+    public List<ActivityLog> Activities { get; set; } = [];
+
     [Required]
     public bool Deleted { get; set; } = false;
 

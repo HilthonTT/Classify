@@ -1,4 +1,5 @@
-﻿using ClassifyApi.Library.Models;
+﻿using ClassifyApi.Authentication;
+using ClassifyApi.Library.Models;
 using MediatR;
 
 namespace ClassifyApi.Commands.Items;
@@ -6,7 +7,6 @@ namespace ClassifyApi.Commands.Items;
 public class UpdateItemCommand : IRequest<Item>
 {
     public int Id { get; }
-    public string OrgId { get; }
     public int? FolderId { get; }
     public string? Name { get; }
     public string? ImageUrl { get; }
@@ -14,17 +14,18 @@ public class UpdateItemCommand : IRequest<Item>
     public int MinimumLevel { get; }
     public decimal Price { get; }
     public bool? Deleted { get; set; }
+    public User User { get; set; }
 
     public UpdateItemCommand(
         int id,
-        string orgId,
         int? folderId,
         string? name,
         string? imageUrl,
         int quantity,
         int minimumLevel,
         decimal price,
-        bool? deleted)
+        bool? deleted,
+        User user)
     {
         Id = id;
         FolderId = folderId;
@@ -33,7 +34,7 @@ public class UpdateItemCommand : IRequest<Item>
         Quantity = quantity;
         MinimumLevel = minimumLevel;
         Price = price;
-        OrgId = orgId;
+        User = user;
         Deleted = deleted;
     }
 }

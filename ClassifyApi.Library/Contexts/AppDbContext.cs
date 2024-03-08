@@ -10,4 +10,5 @@ public class AppDbContext : DbContext
 
     public DbSet<Item> Items { get; set; }
     public DbSet<Folder> Folders { get; set; }
+    public DbSet<ActivityLog> ActivityLogs { get; set; }
 }

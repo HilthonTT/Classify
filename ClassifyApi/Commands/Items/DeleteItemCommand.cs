@@ -1,4 +1,5 @@
-﻿using ClassifyApi.Library.Models;
+﻿using ClassifyApi.Authentication;
+using ClassifyApi.Library.Models;
 using MediatR;
 
 namespace ClassifyApi.Commands.Items;
@@ -6,11 +7,11 @@ namespace ClassifyApi.Commands.Items;
 public class DeleteItemCommand : IRequest<Item>
 {
     public int Id { get; }
-    public string OrgId { get; }
+    public User User { get; set; }
 
-    public DeleteItemCommand(int id, string orgId)
+    public DeleteItemCommand(int id, User user)
     {
         Id = id;
-        OrgId = orgId;
+        User = user;
     }
 }
