@@ -5,16 +5,16 @@ using MediatR;
 
 namespace ClassifyApi.Handlers.Folders;
 
-public class GetAllFoldersByOrgIdHandler : IRequestHandler<GetAllFoldersByOrgIdQuery, List<Folder>>
+public class GetFoldersByOrgIdHandler : IRequestHandler<GetFoldersByOrgIdQuery, List<Folder>>
 {
     private readonly IFolderData _folderData;
 
-    public GetAllFoldersByOrgIdHandler(IFolderData folderData)
+    public GetFoldersByOrgIdHandler(IFolderData folderData)
     {
         _folderData = folderData;
     }
 
-    public async Task<List<Folder>> Handle(GetAllFoldersByOrgIdQuery request, CancellationToken cancellationToken)
+    public async Task<List<Folder>> Handle(GetFoldersByOrgIdQuery request, CancellationToken cancellationToken)
     {
         List<Folder> folders = await _folderData.GetAllFoldersAsync(request.OrgId);
 

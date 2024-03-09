@@ -32,6 +32,13 @@ public class FolderData : IFolderData
         return folders;
     }
 
+    public async Task<Folder?> GetFolderByIdAsync(int id)
+    {
+        Folder? folder = await _db.Folders.Where(f => f.Id == id).FirstOrDefaultAsync();
+
+        return folder;
+    }
+
     public async Task<Folder> CreateFolderAsync(Folder folder)
     {
         EntityEntry<Folder> result = await _db.Folders.AddAsync(folder);

@@ -104,8 +104,13 @@ public class ItemsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateItemAsync([FromBody] CreateItemModel value)
+    public async Task<IActionResult> CreateItemAsync([FromBody] CreateItemModel values)
     {
+        if (ModelState.IsValid is false)
+        {
+            return BadRequest(ModelState);
+        }
+
         try
         {
             User? user = _authService.GetUserFromAuth(HttpContext);
@@ -116,11 +121,11 @@ public class ItemsController : ControllerBase
 
             CreateItemCommand command = new
             (
-                value.Name,
-                value.ImageUrl,
-                value.Quantity,
-                value.MinimumLevel,
-                value.Price,
+                values.Name,
+                values.ImageUrl,
+                values.Quantity,
+                values.MinimumLevel,
+                values.Price,
                 user);
 
             Item item = await _mediator.Send(command);
@@ -135,8 +140,13 @@ public class ItemsController : ControllerBase
     }
 
     [HttpPatch]
-    public async Task<IActionResult> UpdateItemAsync([FromBody] UpdateItemModel value)
+    public async Task<IActionResult> UpdateItemAsync([FromBody] UpdateItemModel values)
     {
+        if (ModelState.IsValid is false)
+        {
+            return BadRequest(ModelState);
+        }
+
         try
         {
             User? user = _authService.GetUserFromAuth(HttpContext);
@@ -146,14 +156,14 @@ public class ItemsController : ControllerBase
             }
 
             UpdateItemCommand command = new(
-                value.Id,
-                value.FolderId,
-                value.Name,
-                value.ImageUrl,
-                value.Quantity,
-                value.MinimumLevel,
-                value.Price,
-                value.Deleted,
+                values.Id,
+                values.FolderId,
+                values.Name,
+                values.ImageUrl,
+                values.Quantity,
+                values.MinimumLevel,
+                values.Price,
+                values.Deleted,
                 user);
 
             Item? item = await _mediator.Send(command);

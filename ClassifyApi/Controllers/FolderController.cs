@@ -1,6 +1,8 @@
 ﻿using ClassifyApi.Authentication;
 using ClassifyApi.Authentication.Interfaces;
+using ClassifyApi.Commands.Folders;
 using ClassifyApi.Library.Models;
+using ClassifyApi.Models;
 using ClassifyApi.Queries.Folders;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -35,7 +37,7 @@ public class FolderController : ControllerBase
                 return StatusCode(401, "Unauthorized");
             }
 
-            GetAllFoldersByOrgIdQuery query = new(user.OrgId);
+            GetFoldersByOrgIdQuery query = new(user.OrgId);
 
             List<Folder> folders = await _mediator.Send(query);
 
@@ -44,6 +46,160 @@ public class FolderController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError("[FOLDERS_GET]: {message}", ex.Message);
+            return StatusCode(500, "Internal Error");
+        }
+    }
+
+    [HttpGet("deleted")]
+    public async Task<IActionResult> GetDeletedFoldersAsync()
+    {
+        try
+        {
+            User? user = _authService.GetUserFromAuth(HttpContext);
+            if (string.IsNullOrWhiteSpace(user?.OrgId))
+            {
+                return StatusCode(401, "Unauthorized");
+            }
+
+            GetDeletedFoldersByOrgIdQuery query = new(user.OrgId);
+
+            List<Folder> folders = await _mediator.Send(query);
+
+            return Ok(folders);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("[FOLDERS_GET_DELETED]: {message}", ex.Message);
+            return StatusCode(500, "Internal Error");
+        }
+    }
+
+    [HttpGet("{folderId}")]
+    public async Task<IActionResult> GetFolderAsync(int folderId)
+    {
+        try
+        {
+            User? user = _authService.GetUserFromAuth(HttpContext);
+            if (string.IsNullOrWhiteSpace(user?.OrgId))
+            {
+                return StatusCode(401, "Unauthorized");
+            }
+
+            GetFolderByIdQuery query = new(folderId, user);
+
+            Folder? folder = await _mediator.Send(query);
+
+            return Ok(folder);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("[FOLDERS_GET_ID]: {message}", ex.Message);
+            return StatusCode(500, "Internal Error");
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateFolderAsync([FromBody] CreateFolderModel values)
+    {
+        if (ModelState.IsValid is false)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            User? user = _authService.GetUserFromAuth(HttpContext);
+            if (string.IsNullOrWhiteSpace(user?.OrgId))
+            {
+                return StatusCode(401, "Unauthorized");
+            }
+
+            CreateFolderCommand command = new(values.Name, values.Notes, user);
+
+            Folder folder = await _mediator.Send(command);
+
+            return Ok(folder);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("[FOLDERS_POST]: {message}", ex.Message);
+            return StatusCode(500, "Internal Error");
+        }
+    }
+
+    [HttpPatch]
+    public async Task<IActionResult> UpdateFolderAsync([FromBody] UpdateFolderModel values)
+    {
+        if (ModelState.IsValid is false)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            User? user = _authService.GetUserFromAuth(HttpContext);
+            if (string.IsNullOrWhiteSpace(user?.OrgId))
+            {
+                return StatusCode(401, "Unauthorized");
+            }
+
+            UpdateFolderCommand command = new(values.Id, values.Name, values.Notes, values.Deleted, user);
+
+            Folder folder = await _mediator.Send(command);
+
+            return Ok(folder);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("[FOLDERS_PATCH]: {message}", ex.Message);
+            return StatusCode(500, "Internal Error");
+        }
+    }
+
+    [HttpDelete("soft/{folderId}")]
+    public async Task<IActionResult> SoftDeleteFolderAsync(int folderId)
+    {
+        try
+        {
+            User? user = _authService.GetUserFromAuth(HttpContext);
+            if (string.IsNullOrWhiteSpace(user?.OrgId))
+            {
+                return StatusCode(401, "Unauthorized");
+            }
+            
+            SoftDeleteFolderCommand command = new(folderId, user);
+
+            Folder? folder = await _mediator.Send(command);
+            
+            return Ok(folder);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("[FOLDERS_SOFT_DELETE]: {message}", ex.Message);
+            return StatusCode(500, "Internal Error");
+        }
+    }
+
+    [HttpDelete("{folderId}")]
+    public async Task<IActionResult> DeleteFolderAsync(int folderId)
+    {
+        try
+        {
+            User? user = _authService.GetUserFromAuth(HttpContext);
+            if (string.IsNullOrWhiteSpace(user?.OrgId))
+            {
+                return StatusCode(401, "Unauthorized");
+            }
+
+            DeleteFolderCommand command = new(folderId, user);
+
+            Folder? folder = await _mediator.Send(command);
+
+            return Ok(folder);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("[FOLDERS_DELETE]: {message}", ex.Message);
             return StatusCode(500, "Internal Error");
         }
     }

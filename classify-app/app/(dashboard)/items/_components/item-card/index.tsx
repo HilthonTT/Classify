@@ -58,5 +58,5 @@ export const ItemCard = ({ item }: ItemCardProps) => {
 };
 
 ItemCard.Skeleton = function ItemCardSkeleton() {
-  return <Skeleton className="rounded-xl h-full w-full" />;
+  return <Skeleton className="rounded-xl min-h-[240px] w-full" />;
 };
