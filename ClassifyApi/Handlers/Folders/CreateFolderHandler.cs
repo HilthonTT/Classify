@@ -37,7 +37,7 @@ public class CreateFolderHandler : IRequestHandler<CreateFolderCommand, Folder>
             Action = Action.Create,
             UserImage = request.User.ImageUrl,
             Username = request.User.FullName,
-            Message = $"{request.User.FullName} created folder {createdFolder.Name}",
+            Message = $"{request.User.FullName} created folder \"{createdFolder.Name}\"",
         };
 
         await _activityLogData.CreateActivityLogAsync(log);

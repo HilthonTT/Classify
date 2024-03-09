@@ -40,7 +40,7 @@ public class UpdateFolderHandler : IRequestHandler<UpdateFolderCommand, Folder?>
             UserId = request.User.Id,
             UserImage = request.User.ImageUrl,
             Username = request.User.FullName,
-            Message = $"{request.User.FullName} updated folder {updatedFolder.Name}",
+            Message = $"{request.User.FullName} updated folder \"{updatedFolder.Name}\"",
         };
 
         await _activityLogData.CreateActivityLogAsync(log);

@@ -56,4 +56,5 @@ public enum Action
     Create,
     Update,
     Delete,
+    Trash,
 }

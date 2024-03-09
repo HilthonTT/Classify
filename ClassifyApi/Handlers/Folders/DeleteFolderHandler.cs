@@ -36,7 +36,7 @@ public class DeleteFolderHandler : IRequestHandler<DeleteFolderCommand, Folder?>
             UserId = request.User.Id,
             UserImage = request.User.ImageUrl,
             Username = request.User.FullName,
-            Message = $"{request.User.FullName} deleted folder {deletedFolder.Name}",
+            Message = $"{request.User.FullName} deleted folder \"{deletedFolder.Name}\"",
         };
 
         await _activityLogData.CreateActivityLogAsync(log);

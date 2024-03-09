@@ -36,7 +36,7 @@ public class DeleteItemHandler : IRequestHandler<DeleteItemCommand, Item?>
             UserId = request.User.Id,
             UserImage = request.User.ImageUrl,
             Username = request.User.FullName,
-            Message = $"{request.User.FullName} deleted item {deletedItem.Name}",
+            Message = $"{request.User.FullName} deleted item \"{deletedItem.Name}\"",
         };
 
         await _activityLogData.CreateActivityLogAsync(log);

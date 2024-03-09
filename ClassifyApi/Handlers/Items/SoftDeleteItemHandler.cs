@@ -35,11 +35,11 @@ public class SoftDeleteItemHandler : IRequestHandler<SoftDeleteItemCommand, Item
             OrgId = request.User.OrgId!,
             EntityId = updatedItem.Id,
             EntityType = EntityType.Item,
-            Action = Action.Delete,
+            Action = Action.Trash,
             UserId = request.User.Id,
             UserImage = request.User.ImageUrl,
             Username = request.User.FullName,
-            Message = $"{request.User.FullName} soft deleted item {updatedItem.Name}",
+            Message = $"{request.User.FullName} moved \"{updatedItem.Name}\" to the trash",
         };
 
         await _activityLogData.CreateActivityLogAsync(log);

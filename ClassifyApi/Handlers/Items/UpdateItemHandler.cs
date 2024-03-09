@@ -43,7 +43,7 @@ public class UpdateItemHandler : IRequestHandler<UpdateItemCommand, Item?>
             UserId = request.User.Id,
             UserImage = request.User.ImageUrl,
             Username = request.User.FullName,
-            Message = $"{request.User.FullName} updated item {updatedItem.Name}",
+            Message = $"{request.User.FullName} updated item \"{updatedItem.Name}\"",
         };
 
         await _activityLogData.CreateActivityLogAsync(log);

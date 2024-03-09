@@ -35,11 +35,11 @@ public class SoftDeleteFolderHandler : IRequestHandler<SoftDeleteFolderCommand, 
             OrgId = request.User.OrgId!,
             EntityId = deletedFolder.Id,
             EntityType = EntityType.Folder,
-            Action = Action.Delete,
+            Action = Action.Trash,
             UserId = request.User.Id,
             UserImage = request.User.ImageUrl,
             Username = request.User.FullName,
-            Message = $"{request.User.FullName} soft deleted folder {deletedFolder.Name}",
+            Message = $"{request.User.FullName} moved folder \"{deletedFolder.Name}\" to trash",
         };
 
         await _activityLogData.CreateActivityLogAsync(log);

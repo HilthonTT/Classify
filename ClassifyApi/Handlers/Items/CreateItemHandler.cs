@@ -40,7 +40,7 @@ public class CreateItemHandler : IRequestHandler<CreateItemCommand, Item>
             UserId = request.User.Id,
             UserImage = request.User.ImageUrl,
             Username = request.User.FullName,
-            Message = $"{request.User.FullName} created item {createdItem.Name}",
+            Message = $"{request.User.FullName} created item \"{createdItem.Name}\"",
         };
 
         await _activityLogData.CreateActivityLogAsync(log);
