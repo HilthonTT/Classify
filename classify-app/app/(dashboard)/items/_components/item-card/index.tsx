@@ -49,7 +49,9 @@ export const ItemCard = ({ item }: ItemCardProps) => {
               {item.quantity} units
             </span>
             <TabSeparator />
-            <span>&euro;{item.price}</span>
+            <span className="text-muted-foreground text-sm">
+              &euro; {item.price}
+            </span>
           </div>
         </div>
       </div>

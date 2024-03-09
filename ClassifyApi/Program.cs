@@ -1,30 +1,13 @@
 using ClassifyApi;
 using Serilog;
 
+var builder = WebApplication.CreateBuilder(args);
 
-WebApplication app;
+builder.Host.UseSerilog();
 
-try
-{
-    var builder = WebApplication.CreateBuilder(args);
+builder.ConfigureServices();
 
-    builder.Host.UseSerilog();
-
-    builder.ConfigureServices();
-
-    app = builder.Build();
-
-    Log.Information("Application starting up");
-}
-catch (Exception ex)
-{
-    Log.Fatal(ex, "The application failed to start correctly");
-    throw;
-}
-finally
-{
-    await Log.CloseAndFlushAsync();
-}
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -45,5 +28,7 @@ app.UseCors();
 app.UseRateLimiter();
 
 app.MapControllers();
+
+Log.Information("App is running successfully");
 
 app.Run();
