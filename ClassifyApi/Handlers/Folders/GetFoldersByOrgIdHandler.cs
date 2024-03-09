@@ -18,6 +18,13 @@ public class GetFoldersByOrgIdHandler : IRequestHandler<GetFoldersByOrgIdQuery, 
     {
         List<Folder> folders = await _folderData.GetAllFoldersAsync(request.OrgId);
 
+        if (string.IsNullOrWhiteSpace(request.Search) is false)
+        {
+            folders = folders.Where(f => f.Name.Contains(
+                request.Search, StringComparison.InvariantCultureIgnoreCase))
+                .ToList();
+        }
+
         return folders;
     }
 }

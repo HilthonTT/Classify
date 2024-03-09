@@ -14,4 +14,5 @@ public class UpdateFolderModel
     [MaxLength(4000, ErrorMessage = "Notes are too long")]
     public string? Notes { get; set; } 
     public bool? Deleted { get; set; }
+    public int? TagId { get; set; }
 }

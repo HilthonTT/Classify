@@ -10,16 +10,16 @@ using Microsoft.AspNetCore.Mvc;
 namespace ClassifyApi.Controllers;
 [Route("api/[controller]")]
 [ApiController]
-public class FolderController : ControllerBase
+public class FoldersController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IAuthService _authService;
-    private readonly ILogger<FolderController> _logger;
+    private readonly ILogger<FoldersController> _logger;
 
-    public FolderController(
+    public FoldersController(
         IMediator mediator,
         IAuthService authService,
-        ILogger<FolderController> logger)
+        ILogger<FoldersController> logger)
     {
         _mediator = mediator;
         _authService = authService;
@@ -27,7 +27,7 @@ public class FolderController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllFoldersAsync()
+    public async Task<IActionResult> GetAllFoldersAsync([FromQuery] string? search)
     {
         try
         {
@@ -37,7 +37,7 @@ public class FolderController : ControllerBase
                 return StatusCode(401, "Unauthorized");
             }
 
-            GetFoldersByOrgIdQuery query = new(user.OrgId);
+            GetFoldersByOrgIdQuery query = new(user.OrgId, search);
 
             List<Folder> folders = await _mediator.Send(query);
 
@@ -114,7 +114,7 @@ public class FolderController : ControllerBase
                 return StatusCode(401, "Unauthorized");
             }
 
-            CreateFolderCommand command = new(values.Name, values.Notes, user);
+            CreateFolderCommand command = new(values.Name, values.Notes, values.TagId, user);
 
             Folder folder = await _mediator.Send(command);
 
@@ -143,7 +143,7 @@ public class FolderController : ControllerBase
                 return StatusCode(401, "Unauthorized");
             }
 
-            UpdateFolderCommand command = new(values.Id, values.Name, values.Notes, values.Deleted, user);
+            UpdateFolderCommand command = new(values.Id, values.Name, values.Notes, values.Deleted, user, values.TagId);
 
             Folder folder = await _mediator.Send(command);
 

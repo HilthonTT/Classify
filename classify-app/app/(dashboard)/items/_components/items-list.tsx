@@ -4,15 +4,17 @@ import { useOrganization } from "@clerk/nextjs";
 
 import { Item } from "@/types/item";
 import { EmptyOrg } from "@/components/empty-org";
+import { Folder } from "@/types/folder";
 
 import { ItemCard } from "./item-card";
 import { EmptyItems } from "./empty-items";
 
 interface ItemListProps {
   items: Item[];
+  folders: Folder[];
 }
 
-export const ItemList = ({ items }: ItemListProps) => {
+export const ItemList = ({ items, folders }: ItemListProps) => {
   const { organization } = useOrganization();
 
   if (!organization) {
@@ -26,7 +28,7 @@ export const ItemList = ({ items }: ItemListProps) => {
           <ItemCard key={item.id} item={item} />
         ))}
       </div>
-      {items.length === 0 && <EmptyItems />}
+      {items.length === 0 && folders.length === 0 && <EmptyItems />}
     </>
   );
 };

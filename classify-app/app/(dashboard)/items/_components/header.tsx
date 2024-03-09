@@ -2,18 +2,24 @@
 
 import Link from "next/link";
 import { Clock, Trash2 } from "lucide-react";
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, useOrganization } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { useCreateItemModal } from "@/store/use-create-item-modal";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useCreateItemModal } from "@/store/use-create-item-modal";
+import { useCreateFolderModal } from "@/store/use-create-folder-modal";
 
 import { SearchInput } from "./search-input";
 import { SelectSort } from "./select-sort";
 
 export const Header = () => {
-  const { onOpen } = useCreateItemModal();
+  const { organization } = useOrganization();
+
+  const { onOpen: onOpenCreateItem } = useCreateItemModal();
+  const { onOpen: onOpenCreateFolder } = useCreateFolderModal();
+
+  const disabled = !organization;
 
   return (
     <>
@@ -38,10 +44,16 @@ export const Header = () => {
         </div>
 
         <div className="mt-2 md:mt-0 md:ml-4 space-y-2 md:space-y-0 md:space-x-2 md:flex md:items-center">
-          <Button onClick={onOpen} variant="primary" className="group">
+          <Button
+            disabled={disabled}
+            onClick={onOpenCreateItem}
+            variant="primary">
             Add Item
           </Button>
-          <Button variant="primary" className="group">
+          <Button
+            disabled={disabled}
+            onClick={onOpenCreateFolder}
+            variant="primary">
             Add Folder
           </Button>
           <UserButton />

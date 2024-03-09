@@ -10,11 +10,16 @@ public class UpdateFolderHandler : IRequestHandler<UpdateFolderCommand, Folder?>
 {
     private readonly IFolderData _folderData;
     private readonly IActivityLogData _activityLogData;
+    private readonly ITagData _tagData;
 
-    public UpdateFolderHandler(IFolderData folderData, IActivityLogData activityLogData)
+    public UpdateFolderHandler(
+        IFolderData folderData,
+        IActivityLogData activityLogData,
+        ITagData tagData)
     {
         _folderData = folderData;
         _activityLogData = activityLogData;
+        _tagData = tagData;
     }
 
     public async Task<Folder?> Handle(UpdateFolderCommand request, CancellationToken cancellationToken)
@@ -23,6 +28,12 @@ public class UpdateFolderHandler : IRequestHandler<UpdateFolderCommand, Folder?>
         if (folder is null || folder.OrgId.Equals(request.User.OrgId) is false)
         {
             return null;
+        }
+
+        if (request.TagId is not null)
+        {
+            Tag? tag = await _tagData.GetTagAsync(request.TagId.Value);
+            folder.Tag = tag;
         }
 
         folder.Name = request.Name ?? folder.Name;

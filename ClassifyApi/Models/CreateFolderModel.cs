@@ -16,4 +16,5 @@ public class CreateFolderModel
 
     [MaxLength(4000, ErrorMessage = "Notes are too long")]
     public string? Notes { get; set; }
+    public int? TagId { get; set; }
 }

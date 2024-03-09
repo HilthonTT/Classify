@@ -18,6 +18,7 @@ public class FolderData : IFolderData
     {
         List<Folder> folders = await _db.Folders
             .Where(f => f.OrgId == orgId)
+            .Include(f => f.Items)
             .ToListAsync();
 
         return folders;
@@ -27,6 +28,7 @@ public class FolderData : IFolderData
     {
         List<Folder> folders = await _db.Folders
             .Where(f => f.OrgId == orgId && f.Deleted)
+            .Include(f => f.Items)
             .ToListAsync();
 
         return folders;
@@ -34,7 +36,10 @@ public class FolderData : IFolderData
 
     public async Task<Folder?> GetFolderByIdAsync(int id)
     {
-        Folder? folder = await _db.Folders.Where(f => f.Id == id).FirstOrDefaultAsync();
+        Folder? folder = await _db.Folders
+            .Where(f => f.Id == id)
+            .Include(f => f.Items)
+            .FirstOrDefaultAsync();
 
         return folder;
     }

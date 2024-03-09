@@ -10,11 +10,16 @@ public class CreateFolderHandler : IRequestHandler<CreateFolderCommand, Folder>
 {
     private readonly IFolderData _folderData;
     private readonly IActivityLogData _activityLogData;
+    private readonly ITagData _tagData;
 
-    public CreateFolderHandler(IFolderData folderData, IActivityLogData activityLogData)
+    public CreateFolderHandler(
+        IFolderData folderData,
+        IActivityLogData activityLogData,
+        ITagData tagData)
     {
         _folderData = folderData;
         _activityLogData = activityLogData;
+        _tagData = tagData;
     }
 
     public async Task<Folder> Handle(CreateFolderCommand request, CancellationToken cancellationToken)
@@ -25,6 +30,12 @@ public class CreateFolderHandler : IRequestHandler<CreateFolderCommand, Folder>
             Name = request.Name,
             Notes = request.Notes,
         };
+
+        if (request.TagId is not null)
+        {
+            Tag? tag = await _tagData.GetTagAsync(request.TagId.Value);
+            folder.Tag = tag;
+        }
 
         Folder createdFolder = await _folderData.CreateFolderAsync(folder);
 

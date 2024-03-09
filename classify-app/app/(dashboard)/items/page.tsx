@@ -1,4 +1,5 @@
 import { getItems } from "@/lib/item-service";
+import { getFolders } from "@/lib/folder-service";
 import { SortType } from "@/types/sort";
 
 import { Header } from "./_components/header";
@@ -13,13 +14,16 @@ interface ItemsPageProps {
 }
 
 const ItemsPage = async ({ searchParams }: ItemsPageProps) => {
-  const items = await getItems(searchParams.search, searchParams.sort);
+  const [items, folders] = await Promise.all([
+    getItems(searchParams.search, searchParams.sort),
+    getFolders(searchParams.search),
+  ]);
 
   return (
     <div className="p-7 h-full w-full">
       <Header />
-      <Summary items={items} />
-      <ItemList items={items} />
+      <Summary items={items} folders={folders} />
+      <ItemList items={items} folders={folders} />
     </div>
   );
 };

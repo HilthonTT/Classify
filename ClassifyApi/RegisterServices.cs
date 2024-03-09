@@ -97,6 +97,7 @@ public static class RegisterServices
         builder.Services.AddTransient<IItemData, ItemData>();
         builder.Services.AddTransient<IActivityLogData, ActivityLogData>();
         builder.Services.AddTransient<IFolderData, FolderData>();
+        builder.Services.AddTransient<ITagData, TagData>();
 
         builder.Services.AddDbContext<AppDbContext>(options =>
         {
