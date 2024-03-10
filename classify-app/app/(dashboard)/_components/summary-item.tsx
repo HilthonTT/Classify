@@ -26,7 +26,8 @@ const summaryVariants = cva("", {
 interface SummaryItemProps extends VariantProps<typeof summaryVariants> {
   icon: LucideIcon;
   label: string;
-  count: string;
+  count: string | number;
+  money?: boolean;
 }
 
 const font = Poppins({
@@ -40,6 +41,7 @@ export const SummaryItem = ({
   count,
   color,
   backgroundColor,
+  money,
 }: SummaryItemProps) => {
   return (
     <div className="bg-gray-50 rounded-md p-6">
@@ -57,7 +59,9 @@ export const SummaryItem = ({
             font.className
           )}>
           <span className="text-3xl font-extrabold truncate">{count}</span>
-          <span className="text-base font-medium truncate">{label}</span>
+          <span className="text-base font-medium truncate">
+            {label} {money && <>&euro;</>}
+          </span>
         </div>
       </div>
     </div>

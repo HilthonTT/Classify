@@ -1,26 +1,27 @@
 ﻿using ClassifyApi.Authentication;
 using ClassifyApi.Authentication.Interfaces;
 using ClassifyApi.Library.Models;
-using ClassifyApi.Queries.Tags;
+using ClassifyApi.Queries.Summaries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 
 namespace ClassifyApi.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
 [EnableCors]
-public class TagsController : ControllerBase
+public class SummaryController : ControllerBase
 {
     private readonly IMediator _mediator;
-    private readonly ILogger<TagsController> _logger;
+    private readonly ILogger<SummaryController> _logger;
     private readonly IAuthService _authService;
 
-    public TagsController(
+    public SummaryController(
         IMediator mediator,
-        ILogger<TagsController> logger,
+        ILogger<SummaryController> logger,
         IAuthService authService)
     {
         _mediator = mediator;
@@ -29,7 +30,8 @@ public class TagsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllTagsAsync()
+    [OutputCache(PolicyName = "Summary")]
+    public async Task<IActionResult> GetSummaryAsync()
     {
         try
         {
@@ -39,15 +41,14 @@ public class TagsController : ControllerBase
                 return StatusCode(401, "Unauthorized");
             }
 
-            GetTagsByOrgIdQuery query = new(user.OrgId);
+            GetSummaryQuery query = new(user.OrgId);
+            Summary summary = await _mediator.Send(query);
 
-            List<Tag> tags = await _mediator.Send(query);
-
-            return Ok(tags);
+            return Ok(summary);
         }
         catch (Exception ex)
         {
-            _logger.LogError("[TAGS_GET]: {message}", ex.Message);
+            _logger.LogError("[SUMMARY_GET]: {message}", ex.Message);
             return StatusCode(500, "Internal Error");
         }
     }

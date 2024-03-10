@@ -3,16 +3,14 @@
 import { useOrganization } from "@clerk/nextjs";
 
 import { SummaryItem } from "@/components/summary-item";
-import { Item } from "@/types/item";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Folder } from "@/types/folder";
+import { Summary as SummaryType } from "@/types/summary";
 
 interface SummaryProps {
-  items: Item[];
-  folders: Folder[];
+  summary: SummaryType;
 }
 
-export const Summary = ({ items, folders }: SummaryProps) => {
+export const Summary = ({ summary }: SummaryProps) => {
   const { organization } = useOrganization();
 
   if (!organization) {
@@ -21,10 +19,13 @@ export const Summary = ({ items, folders }: SummaryProps) => {
 
   return (
     <div className="flex items-center justify-start space-x-4 mt-5">
-      <SummaryItem label="Folders" count={folders.length} />
-      <SummaryItem label="Items" count={items.length} />
-      <SummaryItem label="Total Quantity" count="4 units" />
-      <SummaryItem label="Total Value" count="403 &euro;" />
+      <SummaryItem label="Folders" count={summary.folderCount} />
+      <SummaryItem label="Items" count={summary.itemCount} />
+      <SummaryItem
+        label="Total Quantity"
+        count={`${summary.unitCount} units`}
+      />
+      <SummaryItem label="Total Value" count={summary.totalValue} money />
     </div>
   );
 };

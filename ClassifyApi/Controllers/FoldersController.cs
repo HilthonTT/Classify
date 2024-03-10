@@ -5,11 +5,15 @@ using ClassifyApi.Library.Models;
 using ClassifyApi.Models;
 using ClassifyApi.Queries.Folders;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClassifyApi.Controllers;
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
+[EnableCors]
 public class FoldersController : ControllerBase
 {
     private readonly IMediator _mediator;
