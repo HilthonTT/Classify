@@ -57,4 +57,5 @@ public enum Action
     Update,
     Delete,
     Trash,
+    Move,
 }

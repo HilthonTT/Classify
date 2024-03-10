@@ -17,7 +17,7 @@ public class ItemData : IItemData
     public async Task<List<Item>> GetByOrgIdAsync(string orgId)
     {
         List<Item> items = await _db.Items
-            .Where(i => i.OrgId == orgId && i.Deleted == false)
+            .Where(i => i.OrgId == orgId && i.Deleted == false && i.FolderId == null)
             .ToListAsync();
 
         return items;
@@ -25,7 +25,9 @@ public class ItemData : IItemData
 
     public async Task<List<Item>> GetOrgDeletedItemsAsync(string orgId)
     {
-        List<Item> items = await _db.Items.Where(i => i.OrgId == orgId && i.Deleted).ToListAsync();
+        List<Item> items = await _db.Items
+            .Where(i => i.OrgId == orgId && i.Deleted).
+            ToListAsync();
 
         return items;
     }

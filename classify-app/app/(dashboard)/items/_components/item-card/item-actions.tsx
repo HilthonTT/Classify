@@ -5,6 +5,7 @@ import { FolderSymlink, Plus } from "lucide-react";
 import { Hint } from "@/components/hint";
 import { Item } from "@/types/item";
 import { useUpdateQuantityItemModal } from "@/store/use-update-item-quantity-modal";
+import { useMoveFolderModal } from "@/store/use-move-folder-modal";
 
 interface ItemActionsProps {
   item: Item;
@@ -12,16 +13,24 @@ interface ItemActionsProps {
 
 export const ItemActions = ({ item }: ItemActionsProps) => {
   const updateItemQuantity = useUpdateQuantityItemModal();
+  const moveFolder = useMoveFolderModal();
 
   const handleUpdateQuantity = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    console.log("Hit");
-
     e.preventDefault();
     e.stopPropagation();
 
     updateItemQuantity.onOpen(item);
+  };
+
+  const handleMoveFolder = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    moveFolder.onOpen(item);
   };
 
   return (
@@ -39,7 +48,9 @@ export const ItemActions = ({ item }: ItemActionsProps) => {
           </button>
         </Hint>
         <Hint label="Move Folder" side="left" align="start" alignOffset={-9}>
-          <button className="rounded-lg bg-gray-600 hover:bg-gray-500 transition p-1">
+          <button
+            onClick={handleMoveFolder}
+            className="rounded-lg bg-gray-600 hover:bg-gray-500 transition p-1">
             <FolderSymlink className="stroke-white" />
           </button>
         </Hint>

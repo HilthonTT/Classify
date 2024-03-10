@@ -177,6 +177,34 @@ public class ItemsController : ControllerBase
         }
     }
 
+    [HttpPatch("moveFolder")]
+    public async Task<IActionResult> MoveFolderAsync([FromBody] MoveFolderModel values)
+    {
+        if (ModelState.IsValid is false)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            User? user = _authService.GetUserFromAuth(HttpContext);
+            if (string.IsNullOrWhiteSpace(user?.OrgId))
+            {
+                return StatusCode(401, "Unauthorized");
+            }
+
+            MoveFolderCommand command = new(values.ItemId, values.FolderId, values.Notes, user);
+            Item? item = await _mediator.Send(command);
+
+            return Ok(item);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("[ITEMS_PATCH_MOVE_FOLDER]: {message}", ex.Message);
+            return StatusCode(500, "Internal Error");
+        }
+    }
+
     [HttpDelete("soft/{itemId}")]
     public async Task<IActionResult> SoftDeleteItemAsync(int itemId)
     {

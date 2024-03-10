@@ -6,7 +6,6 @@ import { Boxes, File } from "lucide-react";
 
 import { Folder } from "@/types/folder";
 import { TabSeparator } from "@/components/tab-separator";
-import { cn } from "@/lib/utils";
 
 import { FolderActions } from "./folder-actions";
 import { Actions } from "./actions";
@@ -43,35 +42,38 @@ export const FolderCard = ({ folder }: FolderCardProps) => {
 
           {/* Right Images */}
           <div className="flex flex-col w-1/2 gap-y-0.5">
-            {folder.items.slice(1, 3).map((item, index) => (
-              <div key={index} className="relative h-1/2">
-                {item.imageUrl && (
+            {folder.items[1] ? (
+              <div className="relative h-1/2">
+                {folder.items[1].imageUrl && (
                   <Image
-                    src={item.imageUrl}
-                    alt={item.name}
-                    className={cn(
-                      "object-cover",
-                      index === 0 && "rounded-tr-xl"
-                    )}
+                    src={folder.items[1].imageUrl}
+                    alt={folder.items[1].name}
+                    className="object-cover rounded-tr-xl"
                     fill
                   />
                 )}
               </div>
-            ))}
+            ) : (
+              <div className="relative h-1/2">
+                <File className="h-full w-full p-3.5 bg-zinc-300 rounded-tr-xl" />
+              </div>
+            )}
 
-            {folder.items.length === 0 && (
-              <>
-                {[...Array(2)].map((_, index) => (
-                  <div key={index} className="relative h-1/2">
-                    <File
-                      className={cn(
-                        "h-full w-full p-3.5 bg-zinc-300",
-                        index === 0 && "rounded-tr-xl"
-                      )}
-                    />
-                  </div>
-                ))}
-              </>
+            {folder.items[2] ? (
+              <div className="relative h-1/2">
+                {folder.items[2].imageUrl && (
+                  <Image
+                    src={folder.items[2].imageUrl}
+                    alt={folder.items[2].name}
+                    className="object-cover"
+                    fill
+                  />
+                )}
+              </div>
+            ) : (
+              <div className="relative h-1/2">
+                <File className="h-full w-full p-3.5 bg-zinc-300" />
+              </div>
             )}
             <FolderActions id={folder.id} />
           </div>
