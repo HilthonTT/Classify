@@ -43,6 +43,11 @@ public class GetItemsByOrgIdHandler : IRequestHandler<GetItemsByOrgIdQuery, List
                 break;
         }
 
+        if (request.Amount is not null)
+        {
+            items = items.Take(request.Amount.Value).ToList();
+        }
+
         return items;
     }
 }

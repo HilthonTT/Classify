@@ -18,6 +18,7 @@ public class ActivityLogData : IActivityLogData
     {
         List<ActivityLog> activities = await _db.ActivityLogs
             .Where(a => a.OrgId == orgId)
+            .OrderByDescending(a => a.DateCreated)
             .ToListAsync();
 
         return activities;

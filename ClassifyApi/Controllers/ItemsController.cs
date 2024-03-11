@@ -34,7 +34,8 @@ public class ItemsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetItemsAsync(
         [FromQuery] string? search, 
-        [FromQuery] ItemSortType? sort)
+        [FromQuery] ItemSortType? sort,
+        [FromQuery] int? amount)
     {
         try
         {
@@ -44,7 +45,30 @@ public class ItemsController : ControllerBase
                 return StatusCode(401, "Unauthorized");
             }
 
-            GetItemsByOrgIdQuery query = new(user.OrgId, search, sort);
+            GetItemsByOrgIdQuery query = new(user.OrgId, search, sort, amount);
+            List<Item> items = await _mediator.Send(query);
+
+            return Ok(items);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("[ITEMS_GET]: {message}", ex.Message);
+            return StatusCode(500, "Internal Error");
+        }
+    }
+
+    [HttpGet("recent")]
+    public async Task<IActionResult> GetRecentItemsAsync([FromQuery] int? amount)
+    {
+        try
+        {
+            User? user = _authService.GetUserFromAuth(HttpContext);
+            if (string.IsNullOrWhiteSpace(user?.OrgId))
+            {
+                return StatusCode(401, "Unauthorized");
+            }
+
+            GetRecentItemsQuery query = new(user.OrgId, amount);
             List<Item> items = await _mediator.Send(query);
 
             return Ok(items);

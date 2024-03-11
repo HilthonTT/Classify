@@ -4,13 +4,15 @@ import Link from "next/link";
 import { Settings2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { ActivityLog } from "@/types/activity";
 
 import { ActivityItem } from "./activity-item";
 
-export const Activity = () => {
-  const start = new Date("2020-01-01");
-  const end = new Date("2024-12-31");
+interface ActivityProps {
+  activities: ActivityLog[];
+}
 
+export const Activity = ({ activities }: ActivityProps) => {
   return (
     <div className="max-w-5xl mx-auto mt-10">
       <div className="flex items-center justify-between">
@@ -20,17 +22,10 @@ export const Activity = () => {
           All Activity
         </Button>
       </div>
-      <div className="mt-4">
-        <ActivityItem
-          username="John Marston"
-          activity="moved 1 quantity ofitem from X to Y"
-          date={
-            new Date(
-              start.getTime() +
-                Math.random() * (end.getTime() - start.getTime())
-            )
-          }
-        />
+      <div className="mt-4 space-y-2">
+        {activities?.map((activity) => (
+          <ActivityItem key={activity.id} activity={activity} />
+        ))}
       </div>
       <div className="text-center mt-4">
         <Link

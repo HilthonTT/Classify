@@ -6,13 +6,15 @@ import { SortType } from "@/types/sort";
 
 export const getItems = async (
   search?: string,
-  sort?: SortType
+  sort?: SortType,
+  amount?: number
 ): Promise<Item[]> => {
   const axios = await getInstance();
 
   const params = {
     search,
     sort,
+    amount,
   };
 
   const queryString = qs.stringify(params, {
@@ -21,6 +23,24 @@ export const getItems = async (
   });
 
   const response = await axios.get(`/api/items?${queryString}`);
+  const data = response.data as Item[];
+
+  return data;
+};
+
+export const getRecentItems = async (amount?: number): Promise<Item[]> => {
+  const axios = await getInstance();
+
+  const params = {
+    amount,
+  };
+
+  const queryString = qs.stringify(params, {
+    skipEmptyString: true,
+    skipNull: true,
+  });
+
+  const response = await axios.get(`/api/items/recent?${queryString}`);
   const data = response.data as Item[];
 
   return data;

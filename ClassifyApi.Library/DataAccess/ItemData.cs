@@ -14,11 +14,17 @@ public class ItemData : IItemData
         _db = db;
     }
 
-    public async Task<List<Item>> GetByOrgIdAsync(string orgId)
+    public async Task<List<Item>> GetByOrgIdAsync(string orgId, bool withFolder = false)
     {
-        List<Item> items = await _db.Items
-            .Where(i => i.OrgId == orgId && i.Deleted == false && i.FolderId == null)
-            .ToListAsync();
+        IQueryable<Item> query = _db.Items
+            .Where(i => i.OrgId == orgId && i.Deleted == false);
+
+        if (withFolder is false)
+        {
+            query = query.Where(i => i.FolderId == null);
+        }
+
+        List<Item> items = await query.ToListAsync();
 
         return items;
     }

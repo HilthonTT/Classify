@@ -6,7 +6,7 @@ import { Item } from "@/types/item";
 import { EmptyOrg } from "@/components/empty-org";
 import { Folder } from "@/types/folder";
 
-import { ItemCard } from "./item-card";
+import { ItemCard } from "@/components/item-card";
 import { EmptyItems } from "./empty-items";
 import { FolderCard } from "./folder-card";
 

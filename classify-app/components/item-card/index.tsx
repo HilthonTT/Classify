@@ -6,10 +6,10 @@ import { File } from "lucide-react";
 
 import { Item } from "@/types/item";
 import { TabSeparator } from "@/components/tab-separator";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import { Actions } from "./actions";
 import { ItemActions } from "./item-actions";
-import { Skeleton } from "@/components/ui/skeleton";
 
 interface ItemCardProps {
   item: Item;
